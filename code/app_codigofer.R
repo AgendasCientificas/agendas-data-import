@@ -63,7 +63,8 @@ nombres_corregidos <- c(
   "Biología" = "KB2",
   "Bioquímica" = "KB3",
   "Psicología y Ciencias de la Educación" = "KS7",
-  "Antropología" = "Antropología" # Combinar ambos códigos bajo un mismo nombre
+  "Antropología biológica" = "KS8",
+  "Ciencias Antropológicas" = "KS9" 
 )
 
 # Filtrar nombres para eliminar NAs
