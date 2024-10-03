@@ -52,22 +52,22 @@ for (localidad in diccionario_localidades) {
   print(localidad)
 }
 
-# Reemplazamos las coordenadas de LUJAN con las nuevas coordenadas correctas
+# Reemplazamos las coordenadas de los siguientes lugares con las coordenadas correctas
 coordenadas_diccionario$LUJAN <- data.frame(
   x = c(min = -59.11633267276459, max = -59.11633267276459),  # Longitud correcta de Luján
   y = c(min = -34.54951531220433, max = -34.54951531220433)     # Latitud correcta de Luján
 )
 coordenadas_diccionario$'TRES DE FEBRERO'<- data.frame(
-  x = c(min = -58.550447849613185, max = -58.550447849613185),  # Longitud correcta de Luján
-  y = c(min = -34.60486795154811, max = -34.61203058911919)     # Latitud correcta de Luján
+  x = c(min = -58.550447849613185, max = -58.550447849613185),  # Longitud correcta de 3 de feb
+  y = c(min = -34.60486795154811, max = -34.61203058911919)     # Latitud correcta de 3 de feb
 )
 coordenadas_diccionario$SALTA<- data.frame(
-  x = c(min =-65.41118663384584, max = -65.41118663384584),  # Longitud correcta de Luján
-  y = c(min = -24.78271719785891, max = -24.78271719785891)     # Latitud correcta de Luján
+  x = c(min =-65.41118663384584, max = -65.41118663384584),  # Longitud correcta de Salta
+  y = c(min = -24.78271719785891, max = -24.78271719785891)     # Latitud correcta de Salta
 )
 coordenadas_diccionario$JUJUY<- data.frame(
-  x = c(min =-65.2959422637326, max = -65.2959422637326),  # Longitud correcta de Luján
-  y = c(min = -24.184670835949156, max = -24.184670835949156)     # Latitud correcta de Luján
+  x = c(min =-65.2959422637326, max = -65.2959422637326),  # Longitud correcta de Jujuy
+  y = c(min = -24.184670835949156, max = -24.184670835949156)     # Latitud correcta de Jujuy
 )
 
 
@@ -89,15 +89,11 @@ conicet <- conicet %>%
 # Agregar una nueva columna 'region' a la base de datos 'conicet'
 conicet <- conicet %>%
   mutate(region = case_when(
-    PROVINCIA %in% c("JUJUY", "SALTA", "TUCUMAN", "CATAMARCA", "SANTIAGO DEL ESTERO", 
-                     "LA RIOJA") ~ "NOA",
-    PROVINCIA %in% c("MISIONES", "CORRIENTES", "CHACO", "FORMOSA") ~ "NEA",
-    PROVINCIA %in% c("NEUQUEN", "RIO NEGRO", "CHUBUT", "SANTA CRUZ", "Tierra del Fuego") ~ "Patagónica",
-    PROVINCIA %in% c("SAN JUAN", "MENDOZA", "SAN LUIS") ~ "Cuyo",
-    PROVINCIA %in% c("BUENOS AIRES", "CORDOBA", "SANTA FE", "LA PAMPA","CABA") ~ "Pampeana",
-    PROVINCIA %in% c("ENTRE RIOS", "CORRIENTES", "MISIONES") ~ "Mesopotámica",
-    TRUE ~ "Desconocida"  # En caso de que haya alguna provincia que no encaje
+    PROVINCIA == "BUENOS AIRES" ~ "Buenos Aires",
+    PROVINCIA == "CABA" ~ "CABA",
+    TRUE ~ "Resto del país"  # Todas las demás provincias se agrupan aquí
   ))
+
 
 # Suponiendo que 'conicet' tiene una columna 'TIPO' para el tipo de proyecto y 'AÑO' para el año.
 # Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO'
