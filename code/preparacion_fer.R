@@ -7,7 +7,8 @@ library(osmdata)
 library(ggplot2)
 library(geoAr)
 # conicet <- read_csv("D:/concurso_contar_con_datos/base_becas_e_ingresos_desarrollo_NNyA_2010_2020.csv") ubicación Flor
-conicet <- read_csv("D:/concurso_contar_con_datos/nuevo/base_becas_e_ingresos_desarrollo_NNyA_2010_2020.csv") #Fer
+# conicet <- read_csv("D:/concurso_contar_con_datos/nuevo/base_becas_e_ingresos_desarrollo_NNyA_2010_2020.csv") #Fer
+conicet <- read_csv("data/base_becas_e_ingresos_desarrollo_NNyA_2010_2020.csv")
 
 # Crear el diccionario con localidades
 diccionario_localidades <- unique(conicet$LOCALIDAD)
@@ -95,8 +96,29 @@ conicet <- conicet %>%
   ))
 
 
+
+# Agregar una nueva columna 'Nombre_comision' a 'conicet'
+
+
+conicet <- conicet %>% 
+  mutate(Nombre_comision = case_when(
+    
+    DISCIPLINA.CODIGO == "KA4" ~ "Informática",
+    DISCIPLINA.CODIGO == "KB1" ~ "Medicina",
+    DISCIPLINA.CODIGO == "KB2" ~ "Biología",
+    DISCIPLINA.CODIGO == "KB3" ~ "Bioquímica",
+    DISCIPLINA.CODIGO == "KS7" ~ "Psicología y Ciencias de la Educación",
+    DISCIPLINA.CODIGO == "KS8" ~ "Antropología Biológica",
+    DISCIPLINA.CODIGO == "KS9" ~ "Ciencias Antropológicas"
+    
+  ))
+
+
+
+
 # Suponiendo que 'conicet' tiene una columna 'TIPO' para el tipo de proyecto y 'AÑO' para el año.
 # Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO'
  # Filtrar filas sin valores en 'AÑO' o 'TIPO'
-write.csv(conicet, "D:/concurso_contar_con_datos/conicet_preprocesado.csv", row.names = FALSE) #ubicación Flor
+# write.csv(conicet, "D:/concurso_contar_con_datos/conicet_preprocesado.csv", row.names = FALSE) #ubicación Flor
 #write.csv(conicet, "C:/Users/usuario/Desktop/Concurso_Contar_con_Datos/conicet_preprocesado.csv", row.names = FALSE) # Fer
+write.csv(conicet, "data/conicet_preprocesado.csv", row.names = F)
