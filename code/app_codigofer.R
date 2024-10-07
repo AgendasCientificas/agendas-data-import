@@ -41,7 +41,8 @@ paleta_colores_region <- function(provincia) {
 # Cargar los datos asegurando la codificación correcta
 # conicet <- read_csv("C:/Users/usuario/Desktop/Concurso_Contar_con_Datos/Proyectos_CONICET/conicet_preprocesado.csv", locale = locale(encoding = "UTF-8"))
 # conicet <- read_csv("D:/concurso_contar_con_datos/conicet_preprocesado.csv")
-# conicet <- read_csv("../data/conicet.csv")
+#setwd("D:/concurso_contar_con_datos/github/code")
+#conicet <- read_csv("../data/conicet_preprocesado.csv")
 
 
 # Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO.CONVOCATORIA'
@@ -148,10 +149,14 @@ ui <-
                       
                       tags$footer(
                         HTML('<span style="font-size:12px;"><i>Autores: Florencia Altschuler, Federico Giovannetti, Fernando Steeb y Mariana Smulski. </i></span><br>
-                                  <span style="font-size:10px;">Datos obtenidos de <a href="https://ojs.revistacts.net/index.php/CTS/article/view/410" style="text-decoration:none; color:inherit;">Smulski, M., Giovannetti, F., Steeb, F., Serra, A. L. P., Grasser, F. B., Jove, G. M., & Cevasco, J. (2024). Agendas científicas sobre desarrollo infantil en CONICET: Evolución de becas e ingresos de investigadores en el periodo 2010-2020. Revista Iberoamericana de Ciencia, Tecnología y Sociedad</a> - CTS.</span>'),
+        <span style="font-size:12px;">Datos obtenidos de <a href="https://ojs.revistacts.net/index.php/CTS/article/view/410" target="_blank";"><i>Smulski, M., Giovannetti, F., Steeb, F., Serra, A. L. P., Grasser, F. B., Jove, G. M., & Cevasco, J. (2024). Agendas científicas sobre desarrollo infantil en CONICET: Evolución de becas e ingresos de investigadores en el periodo 2010-2020. Revista Iberoamericana de Ciencia, Tecnología y Sociedad</i></a> - CTS.</span><br>
+        <span style="font-size:12px;">El código fuente de este tablero está disponible en nuestro <a href="https://github.com/AgendasCientificas" target="_blank";">repositorio de GitHub</a>.</span>'),
                         align = "left",
-                        style = "position:fixed; bottom:0; width:100%; padding:10px; background-color:#f8f9fa;"
+                        style = "width:100%; padding:10px; background-color:#f8f9fa;"
                       )
+                      
+       
+                      
              ),
              
              tabPanel("Datos",
