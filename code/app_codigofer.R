@@ -152,7 +152,7 @@ ui <-
         <span style="font-size:12px;">Datos obtenidos de <a href="https://ojs.revistacts.net/index.php/CTS/article/view/410" target="_blank";"><i>Smulski, M., Giovannetti, F., Steeb, F., Serra, A. L. P., Grasser, F. B., Jove, G. M., & Cevasco, J. (2024). Agendas científicas sobre desarrollo infantil en CONICET: Evolución de becas e ingresos de investigadores en el periodo 2010-2020. Revista Iberoamericana de Ciencia, Tecnología y Sociedad</i></a> - CTS.</span><br>
         <span style="font-size:12px;">El código fuente de este tablero está disponible en nuestro <a href="https://github.com/AgendasCientificas" target="_blank";">repositorio de GitHub</a>.</span>'),
                         align = "left",
-                        style = "width:100%; padding:10px; background-color:#f8f9fa;"
+                        style = "width:100%; padding:10px; background-color:#f0f5f9;"
                       )
                       
        
@@ -160,11 +160,15 @@ ui <-
              ),
              
              tabPanel("Datos",
-                      HTML("<span style='font-size: 14px;'>Acá vas a poder acceder a los datos completos...</span>"),
+                      HTML("<h2 style='font-size: 20px; font-weight: bold; color: #046C9A;'>Acá vas a poder acceder a los datos completos...</h2>"),
                       fluidPage(
+                        tags$style(HTML("
+      .reactable { font-size: 10px; }
+    ")),
                         reactableOutput("data")
                       )
-             ))
+             )
+             )
 
 
 # Server---------------
@@ -269,15 +273,16 @@ server <- function(input, output, session) {
       geom_line(color = "blue", size = 1) +
       geom_point(size = 3, color = "blue") +
       labs(title = "Proyectos por año", x = "", y = "") +  # Título del gráfico
-      scale_x_continuous(breaks = datos_tiempo$AÑO) +  # Mostrar todos los años
+      scale_x_continuous(breaks = seq(min(datos_tiempo$AÑO), max(datos_tiempo$AÑO), by = 2)) +  # Mostrar cada dos años
       scale_y_continuous(limits = c(0, max_y)) +  # Limitar el eje Y
       theme_minimal() +
       theme(
-        plot.title = element_text(size = 14),  # Ajustar tamaño del título
+        plot.title = element_text(size = 18,face = "bold"),  # Ajustar tamaño del título
         axis.text.x = element_text(size = 12),  # Ajustar tamaño de fuente en eje X
         axis.text.y = element_text(size = 12)   # Ajustar tamaño de fuente en eje Y
       ) +
       geom_text(aes(label = total_proyectos), 
+                nudge_y = -8,  # Mueve las etiquetas hacia arriba (ajusta el valor según tu gráfico)
                 vjust = -0.5, 
                 size = 4, 
                 show.legend = FALSE)  # Etiquetas de puntos
@@ -295,13 +300,13 @@ server <- function(input, output, session) {
     
     ggplot(datos_region, aes(x = region, y = total_proyectos, fill = region)) +
       geom_bar(stat = "identity") +
-      labs(title = "Proyectos por región", x = "", y = "", size = 14) +  # Quitar nombre ejes y cambiar título
+      labs(title = "Proyectos por región", x = "", y = "") +  # Quitar nombre ejes y cambiar título
       scale_fill_manual(values = c("Buenos Aires" = "#00A08A", "CABA" = "#5BBCD6", "Resto del país" = "#F2AD00")) +
       theme_minimal() +
-      theme(
+      theme(plot.title = element_text(size = 18,face = "bold"),
         axis.text.x = element_text(size = 14),  
         axis.text.y = element_text(size = 14),
-        axis.title.y = element_text(size = 14), 
+        axis.title.y = element_text(size = 20, face = "bold"), 
         legend.position = "none"
       )
   })
