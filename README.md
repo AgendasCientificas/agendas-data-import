@@ -1,4 +1,3 @@
-# agendas-data-import
 # Ciencia sobre crecer, al alcance
 
 ## Organización del Tablero
@@ -21,7 +20,7 @@ Basándonos en datos recopilados en este trabajo sobre proyectos financiados de 
 ## Resumen
 En las últimas dos décadas, el desarrollo infantil ha ganado relevancia en la agenda política argentina, coincidiendo con políticas científicas orientadas a resolver problemas sociales. Un equipo de investigación de la Unidad de Neurobiología Aplicada (UNA, CEMIC-CONICET) estudió el impacto de estas agendas políticas en la ciencia, analizando datos del CONICET sobre ingresos becarios e investigadores entre 2010 y 2020. Los resultados muestran un aumento relativo en el interés de la comunidad científica por estas temáticas. Los datos están disponibles para exploración interactiva. 
 
-[El artículo original puede leerse aquí.](insertar_link_al_articulo)
+El artículo original puede leerse [aquí](https://ojs.revistacts.net/index.php/CTS/article/view/410)
 
 ## Cómo Ejecutar el Tablero
 1. Clona este repositorio: 
