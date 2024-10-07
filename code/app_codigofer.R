@@ -41,7 +41,7 @@ paleta_colores_region <- function(provincia) {
 # Cargar los datos asegurando la codificación correcta
 # conicet <- read_csv("C:/Users/usuario/Desktop/Concurso_Contar_con_Datos/Proyectos_CONICET/conicet_preprocesado.csv", locale = locale(encoding = "UTF-8"))
 # conicet <- read_csv("D:/concurso_contar_con_datos/conicet_preprocesado.csv")
-# conicet <- read_csv("../data/conicet.csv")
+conicet <- read_csv("../data/conicet_preprocesado.csv")
 
 
 # Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO.CONVOCATORIA'
@@ -193,7 +193,7 @@ server <- function(input, output, session) {
   observe({
     datos <- filteredData()
     
-    if (nrow(datos) > 0) {
+    # if (nrow(datos) > 0) {
       # Calcular el número total de proyectos después de aplicar filtros
       total_proyectos <- sum(datos$count)  # Asegúrate de que 'count' es la columna que contiene los proyectos.
       
@@ -206,7 +206,7 @@ server <- function(input, output, session) {
           color = ~paleta_colores_region(region),  # Colores según región
           fillOpacity = 0.6
         )
-    }
+    # }
   })
   
   # Nube de palabras
