@@ -121,8 +121,12 @@ ui <-
                                                     selected = unique(conicet$Nombre_comision),
                                                     options = list(`actions-box` = TRUE),
                                                     multiple = TRUE),
-                          
-                          uiOutput("nubePalabras")  
+
+                          # div(
+                            # style = "width: 100px; height: 10px; transform: rotate(-90deg); padding-bottom: 1000px; padding-top: 500px; padding-right: 0px",  # Adjust rotation angle as needed
+                            uiOutput("nubePalabras")
+                          # )
+
                         ),
                         
                         mainPanel(
