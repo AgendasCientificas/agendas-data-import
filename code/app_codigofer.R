@@ -15,8 +15,8 @@ library(reactable)
 
 # Función para asignar colores a las regiones
 paleta_colores_region <- function(region) {
-  colores <- wes_palette("Darjeeling1")[c(2, 3, 5)]
-  nombres_regiones <- c("Buenos Aires", "CABA", "Resto del país")
+  colores <- wes_palette("Darjeeling1")[c(5, 2, 3)]
+  nombres_regiones <- c("CABA", "Buenos Aires", "Resto del país")
   colores_asignados <- setNames(colores, nombres_regiones)
   colores_asignados["Desconocida"] <- "gray"
   return(colores_asignados[region])
