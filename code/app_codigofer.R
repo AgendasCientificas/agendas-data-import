@@ -254,19 +254,29 @@ server <- function(input, output, session) {
       theme_minimal()
   })
   
+  # Renderizar gráfico de "Proyectos por región"
   output$graficoProyectosRegion <- renderPlot({
+    req(input$grafico_seleccion == "region")  # Solo renderizar si se selecciona este gráfico
+    
     datos_region <- filteredData() %>%
       group_by(region) %>%
       summarise(total_proyectos = n())
     
-    ggplot(datos_region, aes(x = reorder(region, -total_proyectos), y = total_proyectos, fill = region)) +
+    # Reordenar las regiones para que Buenos Aires esté al lado de CABA
+    datos_region <- datos_region %>%
+      mutate(region = factor(region, levels = c("CABA", "Buenos Aires", "Resto del país")))
+    
+    ggplot(datos_region, aes(x = region, y = total_proyectos, fill = region)) +
       geom_bar(stat = "identity") +
-      labs(title = "Proyectos por Región",
-           x = "Región",
-           y = "Número de proyectos") +
+      labs(x = "", y = "Cantidad de proyectos", size = 14) +  # Quitar título y cambiar nombre eje Y
       scale_fill_manual(values = paleta_colores_region(unique(datos_region$region))) +
       theme_minimal() +
-      theme(legend.position = "none")
+      theme(
+        axis.text.x = element_text(size = 14),  
+        axis.text.y = element_text(size = 14),
+        axis.title.y = element_text(size = 14), 
+        legend.position = "none"
+      )
   })
   
   # Table output
