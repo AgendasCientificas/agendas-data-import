@@ -259,9 +259,23 @@ server <- function(input, output, session) {
       nube_filtrada <- palabras_menor_5
     }
     
-    # Renderizar la nube de palabras con el filtro correspondiente
+    # Definir la paleta de colores (de oscuro a claro)
+    colores <- c("#f39c12", "#e67e22", "#d35400", "#e74c3c", "#c0392b")
+    
+    # Asignar color según la frecuencia
+    max_freq <- max(nube_filtrada$freq)
+    min_freq <- min(nube_filtrada$freq)
+    
+    # Normalizar las frecuencias para que se ajusten a la longitud de la paleta
+    nube_filtrada$color <- sapply(nube_filtrada$freq, function(x) {
+      # Asegurarse de que la normalización es adecuada
+      color_idx <- floor((x - min_freq) / (max_freq - min_freq) * (length(colores) - 1)) + 1
+      colores[color_idx] # Asigna el color correspondiente
+    })
+    
+    # Renderizar la nube de palabras con los colores ajustados
     wordcloud2Output <- wordcloud2(nube_filtrada, size = 1.2, minSize = 0.5, gridSize = 10, 
-                                   backgroundColor = "white")
+                                   color = nube_filtrada$color, backgroundColor = "white")
     
     return(wordcloud2Output)
   })
