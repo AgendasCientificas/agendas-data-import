@@ -99,7 +99,6 @@ conicet <- conicet %>%
 
 # Agregar una nueva columna 'Nombre_comision' a 'conicet'
 
-
 conicet <- conicet %>% 
   mutate(Nombre_comision = case_when(
     
@@ -113,8 +112,13 @@ conicet <- conicet %>%
     
   ))
 
+# Filtra los datos excluyendo el año 2021
+conicet <- conicet %>%
+  filter(AÑO != 2021)  
 
-
+# Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO.CONVOCATORIA'
+conicet <- conicet %>%
+  filter(!is.na(AÑO), !is.na(TIPO.CONVOCATORIA), !is.na(lon), !is.na(lat), !is.na(Nombre_comision))
 
 # Suponiendo que 'conicet' tiene una columna 'TIPO' para el tipo de proyecto y 'AÑO' para el año.
 # Asegurarse de que no haya valores NA en las columnas 'AÑO' y 'TIPO'
