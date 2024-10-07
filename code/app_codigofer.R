@@ -247,8 +247,20 @@ server <- function(input, output, session) {
     
     nube <- data.frame(palabra = names(frecuencia), freq = frecuencia)
     
-    # Renderizar la nube de palabras en UI usando wordcloud2Output
-    wordcloud2Output <- wordcloud2(nube, size = 1.2, minSize = 0.5, gridSize = 10, 
+    # Filtrar palabras que aparecen 5 o más veces
+    palabras_frecuentes <- nube[nube$freq >= 5, ]
+    
+    # Si hay palabras que aparecen 5 o más veces, mostrar solo esas
+    if (nrow(palabras_frecuentes) > 0) {
+      nube_filtrada <- palabras_frecuentes
+    } else {
+      # Si no hay, mostrar las palabras que aparecen entre 1 y 5 veces
+      palabras_menor_5 <- nube[nube$freq >= 1 & nube$freq < 5, ]
+      nube_filtrada <- palabras_menor_5
+    }
+    
+    # Renderizar la nube de palabras con el filtro correspondiente
+    wordcloud2Output <- wordcloud2(nube_filtrada, size = 1.2, minSize = 0.5, gridSize = 10, 
                                    backgroundColor = "white")
     
     return(wordcloud2Output)
