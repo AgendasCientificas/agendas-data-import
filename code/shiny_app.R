@@ -41,8 +41,8 @@ paleta_colores_region <- function(provincia) {
 # Cargar los datos asegurando la codificación correcta
 # conicet <- read_csv("C:/Users/usuario/Desktop/Concurso_Contar_con_Datos/Proyectos_CONICET/conicet_preprocesado.csv", locale = locale(encoding = "UTF-8"))
 # conicet <- read_csv("D:/concurso_contar_con_datos/conicet_preprocesado.csv")
-conicet <- read_csv("../data/conicet_preprocesado.csv")
-#setwd("D:/concurso_contar_con_datos/github/code")
+# conicet <- read_csv("../data/conicet_preprocesado.csv")
+# setwd("D:/concurso_contar_con_datos/github/code")
 
 
 
@@ -88,25 +88,36 @@ ui <-
                           class = "titulo-app",
                           h1(
                             style = "margin: 20px 0; font-family: 'Nimbus Sans', sans-serif; font-weight: bold;", 
-                            "Ciencia sobre crecer, al alcance"
+                            "Ciencia sobre crecer, al alcance de todos:
+                            Agendas científicas sobre desarrollo infantil"
                           )
                         ),
                         
-                        markdown("
-  <div style='font-size: 18px; margin-left: 75px; margin-right: 150px; text-align: justify; background-color: #ABDDDE;
-              padding: 10px; border-radius: 5px; margin: 15px 0;'> 
-                          
-    CONICET es el principal organismo de ciencia y tecnología del país. Saber qué temáticas se financian y en donde se investigan es
-    información valiosa para la elaboración de políticas públicas, la formación de redes de investigadores y la sociedad civil en general.
-    Si bien esta información es pública, no es de fácil acceso. 
-    Basándonos en datos recopilados en <a href='https://ojs.revistacts.net/index.php/CTS/article/view/410' target='_blank'>este trabajo</a> sobre proyectos financiados
-    de desarrollo infantil, desarrollamos el siguiente tablero interactivo. Este puede resultar valioso para fomentar redes de trabajo, 
-    colaboración y diálogo entre quienes investigan en el campo del desarrollo.
-    El desarrollo de este tipo de herramientas, con el fin de mejorar la accesibilidad a las investigaciones, podría ser replicado en distintas áreas,
-    fortaleciendo la comunidad científica argentina.
-  </div>
-"),
-                  
+                        fluidPage(
+                          fluidRow(
+                            # Primer recuadro
+                            column(4, 
+                                   div(
+                                     style = 'font-size: 18px; text-align: justify; background-color: #ABDDDE; padding: 10px; border-radius: 5px; margin: 15px 5px;', 
+                                     p(HTML("<strong>CONICET</strong> es el principal organismo de ciencia y tecnología del país. 
+                                     Conocer <strong>qué</strong> temáticas se financian y <strong>dónde</strong> se investigan es información valiosa para la elaboración de políticas públicas, la formación de redes de investigadores y la sociedad civil en general.
+                                       ")),
+                                     p(HTML("<strong>Esta información es pública, pero no es de fácil acceso.</strong>"))
+                                   )
+                            ),
+                            
+                            # Segundo y Tercer recuadro unificados
+                            column(8, 
+                                   div(
+                                     style = 'font-size: 18px; text-align: justify; background-color: #ABDDDE; padding: 10px; border-radius: 5px; margin: 15px 5px;', 
+                                     p(HTML("Basándonos en datos recopilados en <strong><a href='https://ojs.revistacts.net/index.php/CTS/article/view/410' target='_blank'>este</a></strong> trabajo sobre proyectos financiados de desarrollo infantil, generamos el siguiente <strong>tablero interactivo</strong>. 
+                    La elaboración de este tipo de herramientas resulta de valor para <strong>fomentar redes de trabajo, colaboración y diálogo entre quienes investigan en el campo del desarrollo.</strong>")),
+                                     p(HTML("Además, este trabajo podría replicarse para distintas áreas, <strong>mejorando la accesibilidad a la información y fortaleciendo la comunidad científica argentina.</strong>"))
+                                   )
+                            )
+                          )
+                        ),
+
                         sidebarPanel(
                           class = "full-panel",  # Añadir la clase para altura completa
                           sliderInput("yearInput", "Seleccionar período de tiempo",
@@ -120,13 +131,11 @@ ui <-
                                                     choices = unique(conicet$Nombre_comision),
                                                     selected = unique(conicet$Nombre_comision),
                                                     options = list(`actions-box` = TRUE),
-                                                    multiple = TRUE),
-
-                          # div(
-                            # style = "width: 100px; height: 10px; transform: rotate(-90deg); padding-bottom: 1000px; padding-top: 500px; padding-right: 0px",  # Adjust rotation angle as needed
-                            uiOutput("nubePalabras")
-                          # )
-
+                                                    multiple = TRUE,
+                                                    ),
+                          
+                          # Nube de palabras
+                          uiOutput("nubePalabras")  # Ajuste de altura sin scroll
                         ),
                         
                         mainPanel(
@@ -160,7 +169,7 @@ ui <-
                         style = "width:100%; padding:10px; background-color:#f0f5f9;"
                       )
                       
-       
+                      
                       
              ),
              
@@ -173,7 +182,7 @@ ui <-
                         reactableOutput("data")
                       )
              )
-             )
+  )
 
 
 # Server---------------
@@ -208,22 +217,22 @@ server <- function(input, output, session) {
     datos <- filteredData()
     
     # if (nrow(datos) > 0) {
-      # Calcular el número total de proyectos después de aplicar filtros
-      total_proyectos <- sum(datos$count)  # Asegúrate de que 'count' es la columna que contiene los proyectos.
-      
-      leafletProxy("mapa", data = datos) %>%
-        clearMarkers() %>%
-        addCircleMarkers(
-          ~lon, ~lat, 
-          popup = ~paste(LOCALIDAD, "<br>", "Número de proyectos: ", count, "<br>"),  
-          radius = ~log10(count + 1) * 5,  # Ajustar el tamaño según los filtros
-          color = ~paleta_colores_region(region),  # Colores según región
-          fillOpacity = 0.6
-        )
+    # Calcular el número total de proyectos después de aplicar filtros
+    total_proyectos <- sum(datos$count)  # Asegúrate de que 'count' es la columna que contiene los proyectos.
+    
+    leafletProxy("mapa", data = datos) %>%
+      clearMarkers() %>%
+      addCircleMarkers(
+        ~lon, ~lat, 
+        popup = ~paste(LOCALIDAD, "<br>", "Número de proyectos: ", count, "<br>"),  
+        radius = ~log10(count + 1) * 5,  # Ajustar el tamaño según los filtros
+        color = ~paleta_colores_region(region),  # Colores según región
+        fillOpacity = 0.6
+      )
     # }
   })
   
-  # Nube de palabras
+  # Nube de palabras reemplazada por un barplot horizontal
   output$nubePalabras <- renderUI({
     palabras_clave <- filteredData()$PALABRAS.CLAVE.PROYECTO
     if (length(palabras_clave) == 0 || all(is.na(palabras_clave))) {
@@ -251,17 +260,8 @@ server <- function(input, output, session) {
     
     nube <- data.frame(palabra = names(frecuencia), freq = frecuencia)
     
-    # Filtrar palabras que aparecen 5 o más veces
-    palabras_frecuentes <- nube[nube$freq >= 5, ]
-    
-    # Si hay palabras que aparecen 5 o más veces, mostrar solo esas
-    if (nrow(palabras_frecuentes) > 0) {
-      nube_filtrada <- palabras_frecuentes
-    } else {
-      # Si no hay, mostrar las palabras que aparecen entre 1 y 5 veces
-      palabras_menor_5 <- nube[nube$freq >= 1 & nube$freq < 5, ]
-      nube_filtrada <- palabras_menor_5
-    }
+    # Filtrar las 15 palabras más frecuentes
+    nube_filtrada <- head(nube, 20)  # Seleccionar solo las top 15
     
     # Definir la paleta de colores (de oscuro a claro)
     colores <- c("#f39c12", "#e67e22", "#d35400", "#e74c3c", "#c0392b")
@@ -272,18 +272,32 @@ server <- function(input, output, session) {
     
     # Normalizar las frecuencias para que se ajusten a la longitud de la paleta
     nube_filtrada$color <- sapply(nube_filtrada$freq, function(x) {
-      # Asegurarse de que la normalización es adecuada
       color_idx <- floor((x - min_freq) / (max_freq - min_freq) * (length(colores) - 1)) + 1
-      colores[color_idx] # Asigna el color correspondiente
+      colores[color_idx]  # Asigna el color correspondiente
     })
     
-    # Renderizar la nube de palabras con los colores ajustados
-    wordcloud2Output <- wordcloud2(nube_filtrada, size = 1.2, minSize = 0.5, gridSize = 10, 
-                                   color = nube_filtrada$color, backgroundColor = "white")
+    # Crear el gráfico de barras horizontal
+    barplot_output <- plotly::plot_ly(nube_filtrada, x = ~freq, 
+                                      y = ~reorder(palabra, freq),  # Reordenar palabras por frecuencia
+                                      type = "bar", orientation = "h",
+                                      marker = list(color = nube_filtrada$color)) %>%
+      layout(
+        xaxis = list(title = ""),
+        yaxis = list(title = "", tickfont = list(size = 16), standoff = 20, automargin = TRUE),  # Agrandar y separar las palabras del eje Y
+        title = list(
+          text = "Palabras clave más frecuentes", 
+          font = list(family = "Arial", size = 18, color = "black", weight = "bold"),  # Negrita corregida
+          x = 0.5,  # Centrar el título
+          y = 0.99  # Mover un poco el título hacia abajo
+        ),
+        margin = list(l = 150),  # Aumentar margen izquierdo para separar más las palabras del eje
+        height = 700
+      )
     
-    return(wordcloud2Output)
+    return(barplot_output)
   })
   
+
   # Renderizar gráfico de "Proyectos a lo largo del tiempo"
   output$graficoProyectosTiempo <- renderPlot({
     # Filtrar datos por provincias seleccionadas, considerando "Todas"
@@ -308,7 +322,7 @@ server <- function(input, output, session) {
       scale_y_continuous(limits = c(0, max_y)) +  # Limitar el eje Y
       theme_minimal() +
       theme(
-        plot.title = element_text(size = 18,face = "bold"),  # Ajustar tamaño del título
+        plot.title = element_text(size = 18,face = "bold", hjust = 0.5),  # Ajustar tamaño del título
         axis.text.x = element_text(size = 12),  # Ajustar tamaño de fuente en eje X
         axis.text.y = element_text(size = 12)   # Ajustar tamaño de fuente en eje Y
       ) +
@@ -334,11 +348,11 @@ server <- function(input, output, session) {
       labs(title = "Proyectos por región", x = "", y = "") +  # Quitar nombre ejes y cambiar título
       scale_fill_manual(values = c("Buenos Aires" = "#00A08A", "CABA" = "#5BBCD6", "Resto del país" = "#F2AD00")) +
       theme_minimal() +
-      theme(plot.title = element_text(size = 18,face = "bold"),
-        axis.text.x = element_text(size = 14),  
-        axis.text.y = element_text(size = 14),
-        axis.title.y = element_text(size = 20, face = "bold"), 
-        legend.position = "none"
+      theme(plot.title = element_text(size = 18,face = "bold", hjust = 0.5),
+            axis.text.x = element_text(size = 14),  
+            axis.text.y = element_text(size = 14),
+            axis.title.y = element_text(size = 20, face = "bold"), 
+            legend.position = "none"
       )
   })
   
